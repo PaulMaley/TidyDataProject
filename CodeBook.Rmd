@@ -1,0 +1,61 @@
+CodeBook
+========
+Description of tidy data files
+
+## Tidy data set 1
+To read the file do
+`
+read.table("tidyData1.txt", header=TRUE)
+`
+
+```{r}
+df <- read.table("tidyData1.txt", header=TRUE)
+str(df)
+```
+
+## Tidy data set 2
+To read the file do
+`
+read.table("tidyData2.txt", header=TRUE)
+`
+
+The data frame contains one line per combination of `activity` and `subject` which is the mean
+of the observations in this subset in tidy data set 1.
+
+```{r}
+df2 <- read.table("tidyData2.txt", header=TRUE)
+str(df2)
+```
+
+
+## Explanation of Variables
+
+### subject  
+The identifier of the experimental subject. It is in the range `r min(df$subject)` to 
+`r max(df$subject)`.
+
+### activity  
+The activity that the subject was engaged in while the measurements were taken. Possible value are:
+```{r, echo=FALSE, results='asis'}
+cat("\n", levels(df$activity), sep="\n - ")
+```
+
+### dataSet  
+The data set that the subject was part of. Possible value are:
+```{r, echo=FALSE, results='asis'}
+cat("\n", levels(df$dataSet), sep="\n - ")
+```
+
+### measurement variables
+These correspond to a subset of the raw daw data variables but with slightly modified names. 
+In particular only those measurements which contain the text `mean`,`Mean`,`std` or `Std` 
+are retained.   
+The names are also modified so as to remove characters that are illegal in R and to make their
+reading slightly easier. The modifications performed are:
+ - Removal of `()`
+ - Removal of `-`
+ - Capitalisation of the first letter of `mean` or `std`.
+ 
+For example `tBodyAcc-mean()-X` becomes `tBodyAccMeanX`, etc.
+
+The actual meaning of these variables can be found in the original `features_info.txt` file.
